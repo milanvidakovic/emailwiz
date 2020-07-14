@@ -64,7 +64,6 @@ postconf -e "smtpd_use_tls = yes"
 postconf -e "smtpd_tls_auth_only = yes"
 postconf -e "smtp_tls_security_level = may"
 postconf -e "smtp_tls_loglevel = 1"
-postconf -e "smtp_tls_CAfile=$certdir/cert.pem"
 
 # Here we tell Postfix to look to Dovecot for authenticating users/passwords.
 # Dovecot will be putting an authentication socket in /var/spool/postfix/private/auth
@@ -84,6 +83,7 @@ postconf -e "home_mailbox = Mail/Inbox/"
 # Research this one:
 #postconf -e "mailbox_command ="
 
+postconf -e "message_size_limit = 0"
 
 # master.cf
 
@@ -251,7 +251,7 @@ sed -i '/^#Canonicalization/s/simple/relaxed\/simple/' /etc/opendkim.conf
 sed -i '/^#Canonicalization/s/^#//' /etc/opendkim.conf
 
 sed -e '/Socket/s/^#*/#/' -i /etc/opendkim.conf
-sed -i '/\local:\/var\/run\/opendkim\/opendkim.sock/a \Socket\t\t\tinet:12301@localhost' /etc/opendkim.conf
+sed -i '/\local:\/run\/opendkim\/opendkim.sock/a \Socket\t\t\tinet:12301@localhost' /etc/opendkim.conf
 
 # OpenDKIM daemon settings, removing previously activated socket.
 sed -i "/^SOCKET/d" /etc/default/opendkim && echo "SOCKET=\"inet:12301@localhost\"" >> /etc/default/opendkim
