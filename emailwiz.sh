@@ -83,6 +83,7 @@ postconf -e "home_mailbox = Mail/Inbox/"
 # Research this one:
 #postconf -e "mailbox_command ="
 
+# Unlimited message size
 postconf -e "message_size_limit = 0"
 
 # master.cf
